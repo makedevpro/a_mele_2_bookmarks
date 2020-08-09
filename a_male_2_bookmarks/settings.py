@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'account.apps.AccountConfig',
+
 
 ]
 
@@ -123,3 +125,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# указывает адрес, куда Django будет перенаправлять
+# пользователя при успешной авторизации, если не указан GET-параметр
+# next;
+LOGIN_REDIRECT_URL = 'account:dashboard'
+# адрес, куда нужно перенаправлять пользователя для входа
+# в систему, например из обработчиков с декоратором login_required;
+LOGIN_URL = 'account:login'
+# адрес, перейдя по которому, пользователь выйдет из своего
+# аккаунта.
+LOGOUT_URL = 'account:logout'
