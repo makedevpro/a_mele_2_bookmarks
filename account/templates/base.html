@@ -8,7 +8,7 @@
 <body>
     <div id="header">
         <span class="logo">
-            Bookmarks
+            <a href="{% url 'dashboard' %}">Bookmarks</a>
         </span>
         {% if request.user.is_authenticated %}
             <ul class="menu">
