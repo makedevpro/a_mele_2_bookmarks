@@ -32,8 +32,32 @@
             {% endif %}
         </span>
     </div>
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <ul class="messages">
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">x</a>
+                </li>
+            </ul>
+
+        {% endfor %}
+
+    {% endif %}
+
     <div id="content">
         {% block content %}{% endblock %}
     </div>
 </body>
 </html>
+
+<script>
+    {#скрываем сообщение#}
+    const message = document.querySelector('.close');
+    message.addEventListener('click', () => {
+    	message.closest('li').style.display = 'none';
+    })
+</script>
