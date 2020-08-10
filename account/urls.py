@@ -34,6 +34,6 @@ urlpatterns = [
     # изменения и восстановления пароля описанных выше
     path('', include('django.contrib.auth.urls')),
 
-    # Обработчики регистрации пользователя
     path('register/', views.register, name='register'),
+    path('edit/', views.edit, name='edit'),
 ]
