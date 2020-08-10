@@ -129,10 +129,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # указывает адрес, куда Django будет перенаправлять
 # пользователя при успешной авторизации, если не указан GET-параметр
 # next;
-LOGIN_REDIRECT_URL = 'account:dashboard'
+LOGIN_REDIRECT_URL = 'dashboard'
 # адрес, куда нужно перенаправлять пользователя для входа
 # в систему, например из обработчиков с декоратором login_required;
-LOGIN_URL = 'account:login'
+LOGIN_URL = 'login'
 # адрес, перейдя по которому, пользователь выйдет из своего
 # аккаунта.
-LOGOUT_URL = 'account:logout'
+LOGOUT_URL = 'logout'
