@@ -49,10 +49,11 @@ def register(request):
             new_user = user_form.save(commit=False)
             # Задаем пользователю зашифрованный пароль.
             new_user.set_password(user_form.cleaned_data['password'])
-            # Создаем профиль ассоциированный с новым пользователем
-            Profile.objects.create(user=new_user)
             # Сохраняем пользователя в базе данных.
             new_user.save()
+            # Создаем профиль ассоциированный с новым пользователем
+            Profile.objects.create(user=new_user)
+
             return render(request, 'account/register_done.html',
                           {'new_user': new_user})
     else:
