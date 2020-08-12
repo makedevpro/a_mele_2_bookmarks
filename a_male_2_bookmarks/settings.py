@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'social_django',
 
+    'images.apps.ImagesConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -109,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -145,20 +147,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    # 'account.authentication.EmailAuthBackend',
-    # 'social_core.backends.facebook.FacebookOAuth2',
-    # 'social_core.backends.twitter.TwitterOAuth',
-    # 'social_core.backends.google.GoogleOAuth2',
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
-# SOCIAL_AUTH_FACEBOOK_KEY = 'XXX'
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'XXX'
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-#
-#
-# SOCIAL_AUTH_TWITTER_KEY = 'XXX'
-# SOCIAL_AUTH_TWITTER_SECRET = 'XXX'
-#
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'XXX.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '-XXX'
+SOCIAL_AUTH_FACEBOOK_KEY = 'XXX'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'XXX'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+
+SOCIAL_AUTH_TWITTER_KEY = 'XXX'
+SOCIAL_AUTH_TWITTER_SECRET = 'XXX'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'XXX.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '-XXX'
 
