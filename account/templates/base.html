@@ -61,6 +61,21 @@
             {% endblock %}
 		});
     </script>
+    <script src="https://cdn.jsdeliver.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        let csrftoken = Cookie.get('csrftoken')
+        function csrfSafeMethod(method) {
+        	// Для этих методов токен не будет подставляться в заголовок.
+            return (/^(GET|HEAD|OPTIONS|TRACE))$/.test(method));
+		}
+		$.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                	xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+			}
+        });
+    </script>
 
     <script>
         {#скрываем сообщение#}
