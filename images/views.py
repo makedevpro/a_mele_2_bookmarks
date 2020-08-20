@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
@@ -38,6 +39,30 @@ def image_detail(request, id, slug):
     return render(request,
                   'images/image/detail.html',
                   {'section': 'image', 'image': image})
+
+
+@login_required
+def image_list(request):
+    images = Image.objects.all()
+    paginator = Paginator(images, 4)
+    page = request.GET.get('page')
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        # Если переданная страница не является числом, возвращаем первую.
+        images = paginator.page(1)
+    except EmptyPage:
+        if request.is_ajax():
+            # Если получили AJAX-запрос с номером страницы, большим, чем их
+            # кол-во возвращаем пустую страницу.
+            return HttpResponse('')
+        # Если номер страницы больше, чем их кол-во, возвращаем последнюю.
+        images = paginator.page(paginator.num_pages)
+    if request.is_ajax():
+        return render(request, 'images/image/list_ajax.html',
+                      {'section': 'image', 'images': images})
+    return render(request, 'images/image/list.html',
+                  {'section': 'image', 'images': images})
 
 
 @ajax_required
