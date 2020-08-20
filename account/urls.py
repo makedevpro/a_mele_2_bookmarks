@@ -38,5 +38,10 @@ urlpatterns = [
     path('edit/', views.edit, name='edit'),
 
     path('users/', views.user_list, name='user_list'),
-    path('user/<username>/', views.user_detail, name='user_detail'),
+
+    path('users/follow/', views.user_follow, name='user_follow'), # должен находяится до user_detail для правильной иерархии отработки
+    # В противном случае запрос по адресу /users/follow/ подойдет к регулярному отображению шаблона user_detail, при этом будет вызван не тот обработчик, который мы ожидаем
+    # Отсюда следуюет - возможно необходимо резервировать как системные определенные username, в данном случае follow
+    path('users/<username>/', views.user_detail, name='user_detail'),
+
 ]
