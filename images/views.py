@@ -52,12 +52,36 @@ def image_detail(request, id, slug):
     # Увеличиваем количество просмотров картинки на 1.
     # формируем ключ для хранилища в виде object-type:id:field (image:33:id)
     total_views = r.incr('image:{}:views'.format(image.id))
+    # Увеличиваем рейтинг картинки на 1.
+    """
+    Мы используем метод zincrby(), чтобы работать с сортированным набором 
+    данных о количестве просмотров каждой картинки. Сохраняем просмотры по 
+    ключу вида image_ranking и идентификатору картинки id. Таким образом, мы 
+    будем иметь актуальные сведения о том, сколько раз каждое изображение было 
+    просмотрено пользователями сайта.
+    """
+    r.zincrby('image_ranking', 1, image.id)
     return render(request,
                   'images/image/detail.html',
                   {'section': 'image',
                    'image': image,
                    'total_views': total_views,
                    })
+
+
+@login_required
+def image_ranking(request):
+    """ Выводим самые просматриваемые картинки на основе рейтинга Redis """
+    # Получаем набор рейтинга картинок
+    image_ranking = r.zrange('image_ranking', 0, -1, desc=True)[:10]
+    image_ranking_ids = [int(id) for id in image_ranking]
+    # Получаем отсортированный список самых популярных картинок.
+    most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    return render(request,
+                  'images/image/ranking.html',
+                  {'section': 'images',
+                   'most_viewes': most_viewed})
 
 
 @login_required
