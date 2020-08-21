@@ -1,3 +1,6 @@
+import redis
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -9,6 +12,14 @@ from .forms import ImageCreateForm
 from .models import Image
 from actions.utils import create_action
 from common.decorators import ajax_required
+
+
+# Подключение к Redis.
+# Создаем вне функций, чтобы использовать в обработчиках,
+# а не открывать каждый раз
+r = redis.StrictRedis(host=settings.REDIS_HOST,
+                      port=settings.REDIS_PORT,
+                      db=settings.REDIS_DB)
 
 
 @login_required
@@ -38,9 +49,15 @@ def image_create(request):
 
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
+    # Увеличиваем количество просмотров картинки на 1.
+    # формируем ключ для хранилища в виде object-type:id:field (image:33:id)
+    total_views = r.incr('image:{}:views'.format(image.id))
     return render(request,
                   'images/image/detail.html',
-                  {'section': 'image', 'image': image})
+                  {'section': 'image',
+                   'image': image,
+                   'total_views': total_views,
+                   })
 
 
 @login_required
