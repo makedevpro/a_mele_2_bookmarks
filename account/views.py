@@ -50,7 +50,8 @@ def dashboard(request):
         # Если текущий пользователь подписался на кого-то,
         # отображаем только действяи этих пользователей.
         actions = actions.filter(user_id__in=following_ids)
-    actions = actions[:10]
+    actions = actions.select_related('user', 'user__profile')\
+                     .prefetch_related('target')[:10]
 
     return render(request, 'account/dashboard.html', {'section': 'dashboard',
                                                       'actions': actions})
