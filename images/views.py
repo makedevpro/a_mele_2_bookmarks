@@ -46,6 +46,11 @@ def image_detail(request, id, slug):
 @login_required
 def image_list(request):
     images = Image.objects.all()
+
+    # Отсортированные по популярности
+    images_by_popularity = images.order_by('-total_likes')
+    images = images_by_popularity
+
     paginator = Paginator(images, 4)
     page = request.GET.get('page')
     try:

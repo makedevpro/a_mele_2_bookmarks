@@ -46,7 +46,6 @@ def dashboard(request):
     # По умолчанию отображаем все действия.
     actions = Action.objects.exclude(user=request.user)
     following_ids = request.user.following.values_list('id', flat=True)
-    # print(following_ids)
     if following_ids:
         # Если текущий пользователь подписался на кого-то,
         # отображаем только действяи этих пользователей.
